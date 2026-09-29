@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hall — Hall of Fame</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+:root{--bg:#171714;--cream:#f0e7d5;--muted:#aaa391;--gold:#c8a96b;--line:#494437}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--cream);font-family:'DM Sans',sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background:repeating-linear-gradient(90deg,transparent 0 95px,#b9a77c 96px,transparent 97px 190px);z-index:-1}
+header{padding:26px clamp(20px,5vw,76px);border-bottom:1px solid #37362e;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:14px}.mark{width:44px;height:44px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold);font:25px 'Playfair Display'}.eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}.brand h1{font:600 24px 'Playfair Display';margin:0;letter-spacing:.03em}.header-note{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+main{max-width:1440px;margin:auto;padding:44px clamp(20px,5vw,76px) 70px}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:32px}.hero h2{font:500 clamp(38px,5vw,66px) 'Playfair Display';margin:8px 0 10px;line-height:1.02}.hero p{color:var(--muted);max-width:570px;line-height:1.7;font-size:14px;margin:0}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:28px}.count{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}.filters{display:flex;gap:7px;flex-wrap:wrap}.filter{background:transparent;border:1px solid var(--line);color:var(--muted);padding:8px 12px;font:600 11px 'DM Sans';cursor:pointer}.filter.active,.filter:hover{border-color:var(--gold);color:var(--gold)}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 24px}.card{min-width:0;cursor:pointer}.frame{padding:12px;background:linear-gradient(135deg,#725039,#3a291d 45%,#69472d);border:1px solid #8d6a42;box-shadow:0 14px 25px #0008,inset 0 0 0 3px #302116;transition:transform .25s,box-shadow .25s}.card:hover .frame{transform:translateY(-5px);box-shadow:0 22px 34px #0009,inset 0 0 0 3px #302116}.frame-inner{border:1px solid #b3925d;padding:7px;background:#171612}.photo{height:clamp(180px,22vw,300px);background:#292821;position:relative;overflow:hidden;display:grid;place-items:center}.photo img{width:100%;height:100%;object-fit:cover;display:block}.placeholder{color:#80765e;text-align:center;padding:20px}.placeholder .symbol{font:64px 'Playfair Display';display:block;color:#b79b64}.placeholder span:last-child{font-size:10px;text-transform:uppercase;letter-spacing:.16em}.plaque{background:linear-gradient(#e0c994,#b99a5d);color:#272016;text-align:center;margin:12px auto 0;padding:8px 5px;max-width:80%;font-size:9px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;box-shadow:0 2px 4px #0006}
+.card-info{padding:16px 4px 0}.topline{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--gold);font-size:10px;letter-spacing:.15em;text-transform:uppercase}.card h3{font:600 23px 'Playfair Display';margin:9px 0 5px}.person{font-size:12px;color:#d2c6ae;margin-bottom:9px}.desc{font-size:12px;color:var(--muted);line-height:1.65;margin:0}.meta{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #39372e;padding-top:12px;margin-top:14px;color:#8e897a;font-size:10px}.empty{grid-column:1/-1;border:1px dashed var(--line);padding:65px 20px;text-align:center;color:var(--muted)}.empty strong{display:block;font:26px 'Playfair Display';color:var(--cream);margin-bottom:8px}
+footer{border-top:1px solid #37362e;padding:22px clamp(20px,5vw,76px);display:flex;justify-content:space-between;gap:15px;color:#777365;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+dialog{width:min(560px,calc(100% - 28px));border:1px solid #76613c;background:#22221e;color:var(--cream);padding:0;box-shadow:0 25px 90px #000b}dialog::backdrop{background:#000b;backdrop-filter:blur(4px)}.modal-head{padding:23px 25px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.close{background:none;border:0;color:var(--muted);font-size:23px;cursor:pointer}.detail{padding:25px}.detail img{width:100%;max-height:360px;object-fit:cover;border:8px solid #60432b;outline:1px solid #b3925d;outline-offset:-12px}.detail h2{font:34px 'Playfair Display';margin:22px 0 5px}.detail .who{color:var(--gold);margin-bottom:16px}.detail p{color:#c4bba8;line-height:1.8;font-size:14px}.detail-meta{border-top:1px solid var(--line);padding-top:15px;display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+@media(max-width:900px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{align-items:flex-start;flex-direction:column}.header-note{display:none}}@media(max-width:560px){header{padding-top:20px;padding-bottom:20px}.brand h1{font-size:21px}main{padding-top:32px}.gallery{grid-template-columns:1fr;gap:28px}.photo{height:270px}.toolbar{align-items:flex-start;flex-direction:column}.hero h2{font-size:44px}footer{flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="mark">M</div><div><div class="eyebrow">Monash Archives</div><h1>THE HALL</h1></div></div><div class="header-note">Remember the game. Honor the player.</div></header>
+<main>
+<section class="hero"><div><div class="eyebrow">Hall of Fame · Est. 2026</div><h2>Legends live<br>here forever.</h2><p>A gallery for unforgettable gamers from Monash, iconic matches, and moments worth remembering. Each frame is proof of determination.</p></div></section>
+<section class="toolbar"><div class="count" id="count">00 legends archived</div><div class="filters" id="filters"><button class="filter active" data-filter="All">All frames</button><button class="filter" data-filter="Valorant">Valorant</button><button class="filter" data-filter="League of Legends">League of Legends</button><button class="filter" data-filter="Minecraft">Minecraft</button><button class="filter" data-filter="Other">Other games</button></div></section>
+<section class="gallery" id="gallery"></section>
+</main>
+<footer><span>THE HALL · Living archive of Monashters</span><span>Curated manually in the source code</span></footer>
+<dialog id="detailDialog"><div class="modal-head"><div class="eyebrow">Monash Archived</div><button class="close" id="closeDetail" aria-label="Close">×</button></div><div class="detail" id="detailContent"></div></dialog>
+<script>
+// =====================================================
+// ADD NEW HALL OF FAME MEMBERS HERE
+// Copy one object, paste it into the array, and edit it.
+// Put pictures in an "images" folder beside this HTML file.
+// =====================================================
+const legends = [
+    {
+        id: "legend001",
+        title: "N/A",
+        name: "NAME",
+        date: "DATE",
+        game: "TBA",
+        description: "DESCRIPTION",
+        image: ""
+    },
+    {
+        id: "legend002",
+        title: "N/A",
+        name: "NAME",
+        date: "DATE",
+        game: "TBA",
+        description: "DESCRIPTION",
+        image: ""
+    },
+    {
+        id: "legend003",
+        title: "N/A",
+        name: "NAME",
+        date: "DATE",
+        game: "TBA",
+        description: "DESCRIPTION",
+        image: ""
+    }
+
+    // Add more entries below. Remember to put a comma after the previous entry.
+    // {
+    //     id: "legend004",
+    //     title: "Master of the Arena",
+    //     name: "Player Name",
+    //     date: "2026-09-20",
+    //     game: "Roblox",
+    //     description: "Describe what made this achievement memorable.",
+    //     image: "images/player-name.jpg"
+    // }
+];
+
+let currentFilter = "All";
+const $ = id => document.getElementById(id);
+const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+}[char]));
+
+function formatDate(value) {
+    if (!value) return "Date not set";
+    const date = new Date(value + "T12:00:00");
+    return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
+
+function placeholder() {
+    return '<div class="placeholder"><span class="symbol">✦</span><span>Legendary moment</span></div>';
+}
+
+function renderGallery() {
+    const shown = legends.filter(person => {
+        if (currentFilter === "All") return true;
+        if (currentFilter === "Other") {
+            return !["Valorant", "League of Legends", "Minecraft"].includes(person.game);
+        }
+        return person.game === currentFilter;
+    });
+
+    $("count").textContent = String(legends.length).padStart(2, "0") +
+        (legends.length === 1 ? " legend archived" : " legends archived");
+
+    if (shown.length === 0) {
+        $("gallery").innerHTML = '<div class="empty"><strong>No frames in this section yet.</strong>Add a person to the legends array in the code.</div>';
+        return;
+    }
+
+    $("gallery").innerHTML = shown.map(person => {
+        const image = person.image
+            ? `<img src="${escapeHTML(person.image)}" alt="${escapeHTML(person.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder" style="display:none"><span class="symbol">✦</span><span>Image not found</span></div>`
+            : placeholder();
+
+        return `
+        <article class="card" data-id="${escapeHTML(person.id)}" tabindex="0" role="button" aria-label="View ${escapeHTML(person.title)}">
+            <div class="frame">
+                <div class="frame-inner"><div class="photo">${image}</div></div>
+                <div class="plaque">${escapeHTML(person.game)}</div>
+            </div>
+            <div class="card-info">
+                <div class="topline"><span>${escapeHTML(person.game)}</span><span>№ ${String(legends.indexOf(person) + 1).padStart(2, "0")}</span></div>
+                <h3>${escapeHTML(person.title)}</h3>
+                <div class="person">Honoree: ${escapeHTML(person.name)}</div>
+                <p class="desc">${escapeHTML(person.description || "A moment preserved in the Hall of Fame.")}</p>
+                <div class="meta"><span>${escapeHTML(formatDate(person.date))}</span><span>VIEW RECORD ↗</span></div>
+            </div>
+        </article>`;
+    }).join("");
+}
+
+function openDetails(id) {
+    const person = legends.find(item => item.id === id);
+    if (!person) return;
+
+    const picture = person.image
+        ? `<img src="${escapeHTML(person.image)}" alt="${escapeHTML(person.title)}" onerror="this.style.display='none'">`
+        : `<div class="frame"><div class="frame-inner"><div class="photo">${placeholder()}</div></div></div>`;
+
+    $("detailContent").innerHTML = `
+        ${picture}
+        <h2>${escapeHTML(person.title)}</h2>
+        <div class="who">${escapeHTML(person.name)} · ${escapeHTML(person.game)}</div>
+        <p>${escapeHTML(person.description || "No description has been added yet.")}</p>
+        <div class="detail-meta"><span>📅 ${escapeHTML(formatDate(person.date))}</span><span>🎮 ${escapeHTML(person.game)}</span></div>
+    `;
+    $("detailDialog").showModal();
+}
+
+$("gallery").addEventListener("click", event => {
+    const card = event.target.closest(".card");
+    if (card) openDetails(card.dataset.id);
+});
+
+$("gallery").addEventListener("keydown", event => {
+    if ((event.key === "Enter" || event.key === " ") && event.target.classList.contains("card")) {
+        event.preventDefault();
+        openDetails(event.target.dataset.id);
+    }
+});
+
+$("filters").addEventListener("click", event => {
+    const button = event.target.closest("[data-filter]");
+    if (!button) return;
+    currentFilter = button.dataset.filter;
+    document.querySelectorAll(".filter").forEach(item => item.classList.toggle("active", item === button));
+    renderGallery();
+});
+
+$("closeDetail").addEventListener("click", () => $("detailDialog").close());
+$("detailDialog").addEventListener("click", event => {
+    if (event.target === $("detailDialog")) $("detailDialog").close();
+});
+
+renderGallery();
+</script>
+</body>
+</html>
